@@ -32,7 +32,19 @@ namespace NYoutubeDL.Models
 
     public class VideoInfo
     {
-        public string _type { get; set; }
+		public bool? playable_in_embed { get; set; }
+		public string live_status { get; set; }
+		public string channel { get; set; }
+		public long? channel_follower_count { get; set; }
+		public bool? channel_is_verified { get; set; }
+
+		public string uploader { get; set; }
+		public string uploader_id { get; set; }
+		public string uploader_url { get; set; }
+
+		public string availability { get; set; }
+
+		public string _type { get; set; }
 
         public float? abr { get; set; }
 
@@ -82,9 +94,10 @@ namespace NYoutubeDL.Models
 
         public string ie_key { get; set; }
 
-        public object is_live { get; set; }
+        public bool? is_live { get; set; }
+		public bool? was_live { get; set; }
 
-        public string license { get; set; }
+		public string license { get; set; }
 
         public long? like_count { get; set; }
 
@@ -100,7 +113,7 @@ namespace NYoutubeDL.Models
 
         public List<FormatInfo> requested_formats { get; set; }
 
-        public object requested_subtitles { get; set; }
+        public Dictionary<string, SubtitlesInfo> requested_subtitles { get; set; }
 
         public object resolution { get; set; }
 
@@ -116,17 +129,16 @@ namespace NYoutubeDL.Models
 
         public string thumbnail { get; set; }
 
-        public List<ThumbnailInfo> thumbnails { get; set; }
+		public List<Chapter> chapters { get; set; }
+
+		public List<HeatMap> heatmap { get; set; }
+
+		public List<ThumbnailInfo> thumbnails { get; set; }
 
         public string title { get; set; }
+		public string fulltitle { get; set; }
 
-        public string upload_date { get; set; }
-
-        public string uploader { get; set; }
-
-        public string uploader_id { get; set; }
-
-        public string uploader_url { get; set; }
+		public string upload_date { get; set; }
 
         public string url { get; set; }
 

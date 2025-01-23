@@ -31,15 +31,17 @@ namespace NYoutubeDL.Models
     /// </summary>
     public class VideoDownloadInfo : DownloadInfo
     {
+		public VideoInfo videoInfo;
+
         public VideoDownloadInfo(VideoInfo info)
         {
-            if (info == null)
+			videoInfo = info;
+			if (info == null)
             {
                 this.Title = "Video deleted or otherwise unreachable";
                 return;
             }
 
-            this.videoInfo = info;
             this.Abr = info.abr;
             this.Acodec = info.acodec;
             this.AgeLimit = info.age_limit;
@@ -106,8 +108,6 @@ namespace NYoutubeDL.Models
             this.WebpageUrlBasename = info.webpage_url_basename;
             this.Width = info.width;
         }
-
-        public VideoInfo videoInfo { get; }
 
         public string Acodec { get; }
 

@@ -33,13 +33,15 @@ namespace NYoutubeDL.Models
     /// </summary>
     public class PlaylistDownloadInfo : DownloadInfo
     {
-        private VideoDownloadInfo currentVideo;
+		public PlaylistInfo Info { get; set; }
+		private VideoDownloadInfo currentVideo;
 
         private int videoIndex = 1;
 
         public PlaylistDownloadInfo(PlaylistInfo info)
         {
-            this.Title = info.title;
+			Info = info;
+			this.Title = info.title;
             foreach (VideoInfo videoInfo in info.entries)
             {
                 this.Videos.Add(new VideoDownloadInfo(videoInfo));

@@ -15,6 +15,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
@@ -312,7 +313,13 @@ namespace NYoutubeDL.Services
                 VideoSelectionOptions =
                 {
                     NoPlaylist = ydl.Options.VideoSelectionOptions.NoPlaylist
-                }
+                },
+				SubtitleOptions = {
+					AllSubs = ydl.Options.SubtitleOptions.AllSubs,
+					SubFormat = ydl.Options.SubtitleOptions.SubFormat,
+					WriteSub = ydl.Options.SubtitleOptions.WriteSub,
+					WriteAutoSub = ydl.Options.SubtitleOptions.WriteAutoSub,
+				}
             };
 
             if (ydl.Options.VideoFormatOptions.Format != Enums.VideoFormat.undefined)
