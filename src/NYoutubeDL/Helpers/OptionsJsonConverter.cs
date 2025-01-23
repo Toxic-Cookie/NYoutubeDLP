@@ -26,7 +26,6 @@ namespace NYoutubeDL.Helpers
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using Microsoft.CSharp.RuntimeBinder;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using Options;
@@ -65,40 +64,43 @@ namespace NYoutubeDL.Helpers
                             propertyInfo.PropertyType.GetRuntimeFields().
                                 First(field => field.Name.Equals(childPair.Key));
 
-                        dynamic fieldValue = fieldInfo.GetValue(property);
+                        object fieldValue = fieldInfo.GetValue(property);
 
-                        switch (fieldValue)
+                        if (fieldValue is BoolOption boolField)
                         {
-                            case BoolOption boolField:
-                                boolField.Value = (bool)childPair.Value;
-                                fieldInfo.SetValue(property, boolField);
-                                break;
-                            case DateTimeOption datetimeField:
-                                datetimeField.Value = DateTime.Parse((string)childPair.Value);
-                                fieldInfo.SetValue(property, datetimeField);
-                                break;
-                            case DoubleOption doubleField:
-                                doubleField.Value = (double)childPair.Value;
-                                fieldInfo.SetValue(property, doubleField);
-                                break;
-                            case FileSizeRateOption fileSizeRateField:
-                                fileSizeRateField.Value = new FileSizeRate((string)childPair.Value);
-                                fieldInfo.SetValue(property, fileSizeRateField);
-                                break;
-                            case IntOption intField:
-                                intField.Value = (int)childPair.Value;
-                                fieldInfo.SetValue(property, intField);
-                                break;
-                            case StringOption stringField:
-                                stringField.Value = (string)childPair.Value;
-                                fieldInfo.SetValue(property, stringField);
-                                break;
-                            default:
-                                // If it's not one of the above classes, then it's an EnumOption,
-                                // which, at the end of the day, is just an int.
-                                fieldValue.Value = (int)childPair.Value;
-                                fieldInfo.SetValue(property, fieldValue);
-                                break;
+                            boolField.Value = (bool)childPair.Value;
+                            fieldInfo.SetValue(property, boolField);
+                        }
+                        else if (fieldValue is DateTimeOption datetimeField)
+                        {
+                            datetimeField.Value = DateTime.Parse((string)childPair.Value);
+                            fieldInfo.SetValue(property, datetimeField);
+                        }
+                        else if (fieldValue is DoubleOption doubleField)
+                        {
+                            doubleField.Value = (double)childPair.Value;
+                            fieldInfo.SetValue(property, doubleField);
+                        }
+                        else if (fieldValue is FileSizeRateOption fileSizeRateField)
+                        {
+                            fileSizeRateField.Value = new FileSizeRate((string)childPair.Value);
+                            fieldInfo.SetValue(property, fileSizeRateField);
+                        }
+                        else if (fieldValue is IntOption intField)
+                        {
+                            intField.Value = (int)childPair.Value;
+                            fieldInfo.SetValue(property, intField);
+                        }
+                        else if (fieldValue is StringOption stringField)
+                        {
+                            stringField.Value = (string)childPair.Value;
+                            fieldInfo.SetValue(property, stringField);
+                        }
+                        else
+                        {
+                            // If it's not one of the above classes, then it's an EnumOption,
+                            // which, at the end of the day, is just an int.
+                            fieldInfo.SetValue(property, (int)childPair.Value);
                         }
                     }
                 }
@@ -125,16 +127,15 @@ namespace NYoutubeDL.Helpers
                     {
                         try
                         {
-                            dynamic fieldVal = fieldInfo.GetValue(propVal);
+                            FileSizeRateOption fieldVal = (FileSizeRateOption)fieldInfo.GetValue(propVal);
                             if (fieldVal.Value != null)
                             {
-                                FileSizeRate fileSizeRate = fieldVal.Value as FileSizeRate;
-                                object val = fileSizeRate != null ? fileSizeRate.ToString() : fieldVal.Value;
+                                object val = fieldVal.Value is FileSizeRate fileSizeRate ? fileSizeRate.ToString() : fieldVal.Value;
 
                                 childObject.Add(new JProperty(fieldInfo.Name, val));
                             }
                         }
-                        catch (RuntimeBinderException)
+                        catch (Exception)
                         {
                             // Only BaseOption and child classes will have .Value.
                             // Don't care about the rest

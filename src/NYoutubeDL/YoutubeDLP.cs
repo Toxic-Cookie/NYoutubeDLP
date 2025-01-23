@@ -337,7 +337,7 @@ namespace NYoutubeDL
                 {
                     if (!this.process.HasExited)
                     {
-                        this.process.Kill(true);
+                        this.process.Kill();
                     }
 
                     this.process.Dispose();

@@ -39,6 +39,7 @@ namespace NYoutubeDL.Models
                 return;
             }
 
+            this.videoInfo = info;
             this.Abr = info.abr;
             this.Acodec = info.acodec;
             this.AgeLimit = info.age_limit;
@@ -105,6 +106,8 @@ namespace NYoutubeDL.Models
             this.WebpageUrlBasename = info.webpage_url_basename;
             this.Width = info.width;
         }
+
+        public VideoInfo videoInfo { get; }
 
         public string Acodec { get; }
 
